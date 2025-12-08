@@ -1,0 +1,214 @@
+# Azure Portal Screenshot Sanitizer
+
+Automated PII/sensitive data replacement for Azure Portal screenshots using Chrome DevTools MCP Server.
+
+## Quick Start
+
+1. **Start debuggable Edge/Chrome**:
+   ```powershell
+   Start-Process "msedge.exe" -ArgumentList "--remote-debugging-port=9222", "--user-data-dir=$env:TEMP\EdgeDebug"
+   ```
+
+2. **Navigate to Azure Portal** and open the page you want to capture
+
+3. **Run sanitizer**:
+   ```powershell
+   cd tools
+   .\Sanitize-AzurePortal.ps1
+   ```
+
+4. **The script will output JavaScript** - tell Copilot to execute it and take screenshot
+
+## Configuration
+
+Edit `replacements-azure-portal.json` with your key-value pairs:
+
+```json
+{
+  "replacements": {
+    "your-email@company\\.com": "demo@contoso.com",
+    "subscription-guid": "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx",
+    "your-username": "demouser"
+  }
+}
+```
+
+**Important**: Use regex patterns (escape special characters like `.` with `\\.`)
+
+## What Gets Replaced
+
+✅ **Regular DOM Content**:
+- Text nodes
+- Attributes (aria-label, title, placeholder, value, alt)
+- Input/textarea values
+
+✅ **Monaco Editors** (Azure Portal JSON editors):
+- View lines (visible text)
+- Hidden textarea (underlying content)
+
+✅ **All Nested Elements** - recursively processes entire page
+
+## Advanced Usage
+
+### Custom Replacements Programmatically
+
+```powershell
+$customReplacements = @{
+    'prod-server-01' = 'demo-server'
+    'secret-key-\w+' = 'xxxxx-xxxxx'
+    '192\.168\.\d+\.\d+' = '10.0.0.x'
+}
+
+# Generate the JavaScript
+$jsFunction = .\Sanitize-AzurePortal.ps1 -ReplacementMap $customReplacements
+```
+
+### Full-Page Screenshots
+
+After sanitization, tell Copilot:
+```
+Take a full-page screenshot with fullPage=true and save to ./docs/images/full-page.png
+```
+
+### Multiple Pages Workflow
+
+```powershell
+# Sanitize and screenshot multiple Azure Portal pages
+$pages = @(
+    'https://portal.azure.com/#home',
+    'https://portal.azure.com/#blade/HubsExtension/BrowseResource/resourceType/Microsoft.ServiceFabric%2Fclusters',
+    'https://portal.azure.com/#view/Microsoft_Azure_Monitoring/AzureMonitoringBrowseBlade'
+)
+
+foreach ($page in $pages) {
+    # Navigate: Tell Copilot "Navigate to $page"
+    # Wait: Start-Sleep -Seconds 3
+    # Sanitize: .\Sanitize-AzurePortal.ps1
+    # Screenshot: Tell Copilot "Take screenshot"
+}
+```
+
+## Chrome MCP Commands Reference
+
+### Execute Sanitization
+```
+@chrome-devtools evaluate_script with the JavaScript function from Sanitize-AzurePortal.ps1
+```
+
+### Take Screenshot
+```
+@chrome-devtools take_screenshot and save to ./docs/images/sanitized-{timestamp}.png
+```
+
+### List Pages
+```
+@chrome-devtools list_pages
+```
+
+### Navigate
+```
+@chrome-devtools navigate_page to https://portal.azure.com
+```
+
+## Common Replacement Patterns
+
+### Emails
+```json
+"admin@company\\.com": "admin@contoso.com"
+"[a-z]+@company\\.com": "user@contoso.com"
+```
+
+### GUIDs/Subscription IDs
+```json
+"d692f14b-8df6-4f72-ab7d-b4b2981a6b58": "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx"
+"[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}": "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx"
+```
+
+### Hostnames/URLs
+```json
+"cluster\\.eastus\\.cloudapp\\.azure\\.com": "democluster.region.cloudapp.azure.com"
+"https://[a-z0-9]+\\.blob\\.core\\.windows\\.net": "https://democontent.blob.core.windows.net"
+```
+
+### Usernames
+```json
+"jagilber": "demouser"
+"[a-z]{3,8}": "user"
+```
+
+### Tenant Names
+```json
+"MngEnvMCAP706013": "ContosoDemo"
+"CompanyName": "Fabrikam"
+```
+
+## Troubleshooting
+
+### No Replacements Applied
+- Check regex patterns (use regex tester: regex101.com)
+- Verify Chrome debugging port is 9222: `Invoke-RestMethod http://localhost:9222/json`
+- Ensure page is fully loaded before sanitizing
+
+### Monaco Editors Not Updating
+- Wait 1-2 seconds after page load
+- Try clicking into the editor first
+- Monaco may need a re-render: press Ctrl+A to select all
+
+### Screenshot Quality
+- Use `fullPage: true` for complete capture
+- Increase browser window size before screenshot
+- Use `format: "png"` for lossless quality
+
+## Files
+
+- **Sanitize-AzurePortal.ps1** - Quick wrapper script (recommended)
+- **Invoke-AzurePortalScreenshotSanitizer.ps1** - Full-featured sanitizer with options
+- **replacements-azure-portal.json** - Configuration file for replacements
+
+## Examples
+
+### Basic Workflow
+```powershell
+# 1. Start debuggable browser
+Start-Process msedge.exe -ArgumentList "--remote-debugging-port=9222"
+
+# 2. Open Azure Portal and navigate to page
+
+# 3. Run sanitizer
+.\tools\Sanitize-AzurePortal.ps1
+
+# 4. Tell Copilot to execute the JavaScript and take screenshot
+```
+
+### Custom Replacements
+```powershell
+# Create custom replacements
+$replacements = @{
+    'prod-cluster' = 'demo-cluster'
+    'prod-rg' = 'demo-rg'
+}
+
+# Save to custom file
+$replacements | ConvertTo-Json | Out-File my-replacements.json
+
+# Edit Sanitize-AzurePortal.ps1 to use your file
+```
+
+## Tips
+
+1. **Test patterns first**: Use regex101.com to validate before adding to JSON
+2. **Order matters**: More specific patterns should come before general ones
+3. **Escape special chars**: `.` → `\\.`, `\\` → `\\\\`, `[` → `\\[`
+4. **Case insensitive**: All patterns use `/gi` flag (global, case-insensitive)
+5. **Preview before saving**: Review the sanitized page in browser before taking screenshot
+
+## Integration with Documentation Workflows
+
+This tool pairs perfectly with:
+- **Markdown documentation** with embedded screenshots
+- **Confluence/Wiki** pages
+- **GitHub README** files
+- **Technical presentations**
+- **Training materials**
+
+Simply sanitize → screenshot → embed in your docs! 📸

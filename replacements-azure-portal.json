@@ -1,0 +1,20 @@
+{
+  "_comment": "Azure Portal PII/Sensitive Data Replacement Patterns",
+  "_usage": "Import with: $map = Get-Content replacements-azure-portal.json | ConvertFrom-Json -AsHashtable",
+  
+  "replacements": {
+    "admin@MngEnvMCAP706013\\.onmicrosoft\\.com": "admin@fabrikam.com",
+    "MngEnvMCAP706013": "FabrikamDemo",
+    "jagilber": "demouser",
+    "d692f14b-8df6-4f72-ab7d-b4b2981a6b58": "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx",
+    "1310dfb0-a887-4ca0-8b9f-95690d4e9f8c": "yyyyyyyy-yyyy-yyyy-yyyy-yyyyyyyyyyyy",
+    "b07f7908-810c-42c4-8a3e-cd856bf903ea": "zzzzzzzz-zzzz-zzzz-zzzz-zzzzzzzzzzzz",
+    "CF5FA1BB54C5356FA853CAE416D78950FCB7B7DF": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+    "o4gb6ue2hhjuq2": "demostorage01",
+    "o4gb6ue2hhjuq3": "demostorage02",
+    "servicefabriccluster\\.centralus\\.cloudapp\\.azure\\.com:19080": "democluster.eastus.cloudapp.azure.com:19080",
+    "centralus\\.servicefabric\\.azure\\.com": "eastus.servicefabric.azure.com",
+    "servicefabriccluster": "democluster",
+    "ME-MngEnvMCAP706013-jagilber-1": "Demo-Subscription-001"
+  }
+}

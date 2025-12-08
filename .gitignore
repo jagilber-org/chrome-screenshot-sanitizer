@@ -1,0 +1,38 @@
+# Screenshots with sensitive data
+images/*.png
+images/*.jpg
+images/*.jpeg
+!images/.gitkeep
+
+# Sensitive configuration files
+replacements-production.json
+replacements-*.json
+!replacements-azure-portal.json
+
+# Browser debug profiles
+*Debug/
+EdgeDebug/
+ChromeDebug/
+
+# Temporary files
+*.tmp
+temp/
+$env:TEMP/
+
+# PowerShell
+*.ps1.swp
+
+# Git
+.git/
+
+# VS Code
+.vscode/
+*.code-workspace
+
+# Node modules (if using npm for Chrome MCP)
+node_modules/
+package-lock.json
+
+# OS files
+Thumbs.db
+.DS_Store
