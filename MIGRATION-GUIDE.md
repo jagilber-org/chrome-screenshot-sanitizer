@@ -37,11 +37,11 @@ Located in: `tools/`
    - Customizable output paths
    - Includes detailed help documentation
 
-3. **`replacements-azure-portal.json`** (Configuration file)
-   - Contains all replacement patterns
+3. **`replacements-azure-portal.template.json`** (Configuration template)
+   - Contains example replacement patterns
    - Regex-based pattern matching
-   - Easy to customize per project
-   - Example patterns included
+   - Copy to `replacements-azure-portal.json` and customize per project
+   - User's customized `replacements-azure-portal.json` is gitignored
 
 ### Documentation (4 files)
 Located in: `tools/` and `docs/`
@@ -116,7 +116,16 @@ Located in: `examples/chrome-mcp-examples/`
 
 ### Basic Workflow
 
-1. **Edit replacements config** (`replacements-azure-portal.json`):
+1. **Create and edit replacements config**:
+   ```powershell
+   # Copy template
+   Copy-Item replacements-azure-portal.template.json replacements-azure-portal.json
+   
+   # Edit with your patterns
+   code replacements-azure-portal.json
+   ```
+   
+   Example (`replacements-azure-portal.json`):
    ```json
    {
      "replacements": {

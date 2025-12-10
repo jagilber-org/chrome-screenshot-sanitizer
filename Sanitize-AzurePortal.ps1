@@ -4,6 +4,18 @@
 $replacementsFile = "$PSScriptRoot\replacements-azure-portal.json"
 
 if (!(Test-Path $replacementsFile)) {
+    $templateFile = "$PSScriptRoot\replacements-azure-portal.template.json"
+    if (Test-Path $templateFile) {
+        Write-Host "Creating replacements-azure-portal.json from template..." -ForegroundColor Yellow
+        Copy-Item $templateFile $replacementsFile
+        Write-Host "✓ Created. Please edit $replacementsFile with your patterns." -ForegroundColor Green
+    } else {
+        Write-Error "Neither replacements-azure-portal.json nor template found"
+        exit 1
+    }
+}
+
+if (!(Test-Path $replacementsFile)) {
     Write-Error "Replacements file not found: $replacementsFile"
     exit 1
 }

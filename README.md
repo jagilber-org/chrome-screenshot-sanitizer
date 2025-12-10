@@ -21,7 +21,12 @@ Automated PII/sensitive data replacement for Azure Portal screenshots using Chro
 
 ## Configuration
 
-Edit `replacements-azure-portal.json` with your key-value pairs:
+1. **Copy the template**:
+   ```powershell
+   Copy-Item replacements-azure-portal.template.json replacements-azure-portal.json
+   ```
+
+2. **Edit** `replacements-azure-portal.json` with your key-value pairs:
 
 ```json
 {
@@ -163,7 +168,8 @@ foreach ($page in $pages) {
 
 - **Sanitize-AzurePortal.ps1** - Quick wrapper script (recommended)
 - **Invoke-AzurePortalScreenshotSanitizer.ps1** - Full-featured sanitizer with options
-- **replacements-azure-portal.json** - Configuration file for replacements
+- **replacements-azure-portal.template.json** - Template configuration file
+- **replacements-azure-portal.json** - Your customized replacements (gitignored, create from template)
 
 ## Examples
 
@@ -193,6 +199,23 @@ $replacements | ConvertTo-Json | Out-File my-replacements.json
 
 # Edit Sanitize-AzurePortal.ps1 to use your file
 ```
+
+## Getting Started
+
+### First-Time Setup
+
+1. **Copy the template configuration**:
+   ```powershell
+   Copy-Item replacements-azure-portal.template.json replacements-azure-portal.json
+   ```
+
+2. **Edit with your patterns**:
+   ```powershell
+   code replacements-azure-portal.json
+   # Add your email, subscription IDs, usernames, etc.
+   ```
+
+3. **Set up Chrome MCP Server** (see [.vscode/README.md](.vscode/README.md))
 
 ## Tips
 

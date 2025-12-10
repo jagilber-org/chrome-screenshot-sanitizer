@@ -7,7 +7,7 @@ images/*.jpeg
 # Sensitive configuration files
 replacements-production.json
 replacements-*.json
-!replacements-azure-portal.json
+!replacements-azure-portal.template.json
 
 # Browser debug profiles
 *Debug/
