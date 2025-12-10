@@ -204,18 +204,52 @@ $replacements | ConvertTo-Json | Out-File my-replacements.json
 
 ### First-Time Setup
 
-1. **Copy the template configuration**:
-   ```powershell
-   Copy-Item replacements-azure-portal.template.json replacements-azure-portal.json
-   ```
+**Option 1: Use .env System (Recommended)**
 
-2. **Edit with your patterns**:
-   ```powershell
-   code replacements-azure-portal.json
-   # Add your email, subscription IDs, usernames, etc.
-   ```
+```powershell
+# 1. Create .env from example
+Copy-Item .env.example .env
 
-3. **Set up Chrome MCP Server** (see [.vscode/README.md](.vscode/README.md))
+# 2. Edit with your actual values
+code .env
+
+# 3. Validate configuration
+.\Get-SanitizationMappings.ps1 -ValidateOnly
+
+# 4. Generate sanitization script
+.\Sanitize-AzurePortal-FromEnv.ps1
+```
+
+**Option 2: Use JSON System (Legacy)**
+
+```powershell
+# 1. Copy the template configuration
+Copy-Item replacements-azure-portal.template.json replacements-azure-portal.json
+
+# 2. Edit with your patterns
+code replacements-azure-portal.json
+
+# 3. Generate sanitization script
+.\Sanitize-AzurePortal.ps1
+```
+
+See [ENV-BASED-SANITIZATION.md](ENV-BASED-SANITIZATION.md) for complete .env system documentation.
+
+### Set up Chrome MCP Server
+
+See [.vscode/README.md](.vscode/README.md) for Chrome MCP configuration.
+
+### Verified Working Workflow
+
+The complete workflow has been tested and verified on December 10, 2025:
+
+1. ✅ Start Edge with remote debugging
+2. ✅ Navigate to Azure Portal via Chrome MCP
+3. ✅ Execute sanitization JavaScript (21 replacements verified)
+4. ✅ Capture screenshot with all PII removed
+5. ✅ Example screenshot available: [images/examples/azure-portal-home-sanitized.png](images/examples/azure-portal-home-sanitized.png)
+
+See [docs/sessions/2025-12-10-successful-chrome-mcp-test.md](docs/sessions/2025-12-10-successful-chrome-mcp-test.md) for complete test details and learnings.
 
 ## Tips
 

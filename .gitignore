@@ -1,26 +1,40 @@
-# Screenshots with sensitive data
+# Screenshots with sensitive data (CRITICAL: Never commit unsanitized screenshots)
 images/*.png
 images/*.jpg
 images/*.jpeg
+images/*.gif
+images/*.webp
+# Allow sanitized examples only
+!images/examples/*-sanitized.png
+!images/examples/*-sanitized.jpg
 !images/.gitkeep
 
-# Sensitive configuration files
-replacements-production.json
+# Environment files with secrets (CRITICAL: Never commit real .env files)
+.env
+.env.*
+!.env.example
+
+# Sensitive configuration files (CRITICAL: Never commit real replacement configs)
 replacements-*.json
 !replacements-azure-portal.template.json
+# Note: replacements-azure-portal.json is intentionally gitignored despite earlier config
 
-# Browser debug profiles
+# Browser debug profiles and sessions
 *Debug/
 EdgeDebug/
 ChromeDebug/
+.debuggerinfo
 
-# Temporary files
+# Temporary files and sanitization outputs
 *.tmp
+*.temp
 temp/
 $env:TEMP/
+*-sanitize.js
 
 # PowerShell
 *.ps1.swp
+*.psm1.swp
 
 # Git
 .git/

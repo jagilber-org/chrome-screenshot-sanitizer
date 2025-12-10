@@ -11,7 +11,17 @@ This directory contains example sanitized Azure Portal screenshots demonstrating
 ## Current Examples
 
 ### Azure Portal Home
-*Coming soon - example of sanitized Azure Portal home page*
+**File**: `azure-portal-home-sanitized.png`  
+**Date**: December 10, 2025  
+**Description**: Azure Portal home page with all PII sanitized including email addresses, tenant names, subscription IDs, usernames, and resource names. Demonstrates successful sanitization of account menu, subscription list, and recent resources.
+
+**Sanitization verified**:
+- ✅ Email: `admin@MngEnvMCAP706013.onmicrosoft.com` → `admin@fabrikam.com`
+- ✅ Tenant: `MngEnvMCAP706013` → `FabrikamDemo`
+- ✅ Username: `jagilber` → `demouser`
+- ✅ Subscription: `ME-MngEnvMCAP706013-jagilber-1` → `Demo-Subscription-001`
+- ✅ GUIDs: Real subscription IDs replaced with placeholder values
+- ✅ 21 total replacements across page
 
 ### Service Fabric Cluster Overview
 *Coming soon - example of sanitized Service Fabric cluster details*
