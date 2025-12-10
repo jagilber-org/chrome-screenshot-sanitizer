@@ -1,0 +1,27 @@
+{
+  "projectName": "azure-portal",
+  "description": "Azure Portal screenshots for TSGs and documentation",
+  "baseUrl": "https://portal.azure.com",
+  "outputDir": "projects/azure-portal/outputs",
+  "chromeSettings": {
+    "debugPort": 9222,
+    "browserType": "msedge",
+    "viewport": {
+      "width": 1920,
+      "height": 1080
+    },
+    "waitBeforeScreenshot": 2000
+  },
+  "screenshotDefaults": {
+    "format": "png",
+    "quality": 95,
+    "fullPage": false
+  },
+  "additionalPatterns": [
+    {
+      "description": "Azure-specific patterns (if needed beyond .env)",
+      "find": "",
+      "replace": ""
+    }
+  ]
+}

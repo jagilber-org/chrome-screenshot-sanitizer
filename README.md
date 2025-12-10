@@ -2,6 +2,26 @@
 
 Automated PII/sensitive data replacement for Azure Portal screenshots using Chrome DevTools MCP Server.
 
+## Multi-Project Support
+
+This repository supports **multiple screenshot projects** using a **single shared .env file** for PII patterns:
+
+```powershell
+# Create a new project
+.\New-SanitizationProject.ps1 -ProjectName "azure-devops" -BaseUrl "https://dev.azure.com"
+
+# Capture sanitized screenshot for project
+.\Sanitize-Project.ps1 -Project "azure-devops"
+```
+
+**Benefits**:
+- ✅ Single .env file for all projects (configure PII once)
+- ✅ Organized outputs by project (projects/azure-portal/outputs/, projects/github/outputs/)
+- ✅ Project-specific settings (viewport, format, URLs)
+- ✅ Easy to share/archive individual projects
+
+See [Multi-Project Guide](docs/MULTI-PROJECT-GUIDE.md) for complete documentation.
+
 ## Quick Start
 
 1. **Start debuggable Edge/Chrome**:

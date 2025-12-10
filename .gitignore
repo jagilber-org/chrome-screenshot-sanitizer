@@ -9,6 +9,12 @@ images/*.webp
 !images/examples/*-sanitized.jpg
 !images/.gitkeep
 
+# Project outputs (allow sanitized screenshots only)
+projects/**/outputs/*
+!projects/**/outputs/*-sanitized.png
+!projects/**/outputs/*-sanitized.jpg
+!projects/**/outputs/.gitkeep
+
 # Environment files with secrets (CRITICAL: Never commit real .env files)
 .env
 .env.*
