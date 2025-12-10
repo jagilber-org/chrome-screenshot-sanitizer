@@ -170,7 +170,28 @@ if ($envVars['TENANT_ID']) {
     $mappings[$tenantIdPattern] = $envVars['DEMO_TENANT_ID']
 }
 
-# 6. Resource names (use pattern matching for numbered resources)
+# 6. Azure locations and API versions
+if ($envVars['LOCATION']) {
+    $locationPattern = [regex]::Escape($envVars['LOCATION'])
+    $mappings[$locationPattern] = if ($envVars['DEMO_LOCATION']) { $envVars['DEMO_LOCATION'] } else { 'demo-region' }
+}
+
+if ($envVars['API_VERSION']) {
+    $apiVersionPattern = [regex]::Escape($envVars['API_VERSION'])
+    $mappings[$apiVersionPattern] = if ($envVars['DEMO_API_VERSION']) { $envVars['DEMO_API_VERSION'] } else { '2099-01-01-preview' }
+}
+
+if ($envVars['VMSS_SKU']) {
+    $skuPattern = [regex]::Escape($envVars['VMSS_SKU'])
+    $mappings[$skuPattern] = if ($envVars['DEMO_VMSS_SKU']) { $envVars['DEMO_VMSS_SKU'] } else { 'Standard_DemoVM_v2' }
+}
+
+if ($envVars['VMSS_CAPACITY']) {
+    $capacityPattern = [regex]::Escape($envVars['VMSS_CAPACITY'])
+    $mappings[$capacityPattern] = if ($envVars['DEMO_VMSS_CAPACITY']) { $envVars['DEMO_VMSS_CAPACITY'] } else { '3' }
+}
+
+# 7. Resource names (use pattern matching for numbered resources)
 for ($i = 1; $i -le 10; $i++) {
     $rgKey = "RESOURCE_GROUP_$i"
     $saKey = "STORAGE_ACCOUNT_$i"
@@ -200,9 +221,33 @@ for ($i = 1; $i -le 10; $i++) {
         $demoSfKey = "DEMO_SF_CLUSTER_$i"
         $mappings[$sfPattern] = if ($envVars[$demoSfKey]) { $envVars[$demoSfKey] } else { "demo-sf-cluster-$i" }
     }
+    
+    # VMSS names
+    $vmssKey = "VMSS_NAME_$i"
+    if ($envVars[$vmssKey]) {
+        $vmssPattern = [regex]::Escape($envVars[$vmssKey])
+        $demoVmssKey = "DEMO_VMSS_NAME_$i"
+        $mappings[$vmssPattern] = if ($envVars[$demoVmssKey]) { $envVars[$demoVmssKey] } else { "demo-vmss-$i" }
+    }
+    
+    # VMSS node types
+    $nodeTypeKey = "VMSS_NODE_TYPE_$i"
+    if ($envVars[$nodeTypeKey]) {
+        $nodeTypePattern = [regex]::Escape($envVars[$nodeTypeKey])
+        $demoNodeTypeKey = "DEMO_VMSS_NODE_TYPE_$i"
+        $mappings[$nodeTypePattern] = if ($envVars[$demoNodeTypeKey]) { $envVars[$demoNodeTypeKey] } else { "NodeType$i" }
+    }
+    
+    # Certificate thumbprints
+    $certKey = "CERT_THUMBPRINT_$i"
+    if ($envVars[$certKey]) {
+        $certPattern = [regex]::Escape($envVars[$certKey])
+        $demoCertKey = "DEMO_CERT_THUMBPRINT_$i"
+        $mappings[$certPattern] = if ($envVars[$demoCertKey]) { $envVars[$demoCertKey] } else { "X" * 40 }
+    }
 }
 
-# 7. Username (should be last to avoid over-replacement)
+# 8. Username (should be last to avoid over-replacement)
 if ($envVars['USERNAME']) {
     $usernamePattern = [regex]::Escape($envVars['USERNAME'])
     $mappings[$usernamePattern] = $envVars['DEMO_USERNAME']

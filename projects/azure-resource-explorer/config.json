@@ -1,0 +1,21 @@
+{
+  "baseUrl": "https://resources.azure.com",
+  "outputDir": "projects/azure-resource-explorer/outputs",
+  "chromeSettings": {
+    "waitBeforeScreenshot": 2000,
+    "debugPort": 9222,
+    "browserType": "msedge",
+    "viewport": {
+      "width": 1920,
+      "height": 1080
+    }
+  },
+  "description": "Azure Resource Explorer screenshots for resource management documentation",
+  "additionalPatterns": [],
+  "screenshotDefaults": {
+    "quality": 95,
+    "fullPage": false,
+    "format": "png"
+  },
+  "projectName": "azure-resource-explorer"
+}
