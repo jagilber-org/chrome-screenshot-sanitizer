@@ -291,6 +291,24 @@ See [docs/sessions/2025-12-10-successful-chrome-mcp-test.md](docs/sessions/2025-
 4. **Case insensitive**: All patterns use `/gi` flag (global, case-insensitive)
 5. **Preview before saving**: Review the sanitized page in browser before taking screenshot
 
+## Portfolio Context
+
+This project is part of the [jagilber-org portfolio](https://github.com/jagilber-org), demonstrating practical MCP (Model Context Protocol) integration patterns.
+
+**Cross-Project Integration**:
+- Works with **obfuscate-mcp-server** for comprehensive PII removal workflows
+- Integrates with **chrome-devtools MCP** for browser automation
+- Complements **kusto-dashboard-manager** for Azure Portal screenshot documentation
+- Part of enterprise-grade data sanitization workflow
+
+**Portfolio Highlights**:
+- Real-world MCP server integration (Chrome DevTools Protocol)
+- Production-ready PII sanitization patterns
+- Multi-project configuration system (.env based)
+- Automated documentation screenshot workflows
+
+[View Full Portfolio](https://github.com/jagilber-org) | [Integration Examples](https://github.com/jagilber-org#cross-project-integration)
+
 ## Integration with Documentation Workflows
 
 This tool pairs perfectly with:
