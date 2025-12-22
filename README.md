@@ -1,5 +1,7 @@
 # Azure Portal Screenshot Sanitizer
 
+> **Portfolio Project** | [View Full Portfolio](https://github.com/jagilber-org) | [Specifications](docs/specs/)
+
 Automated PII/sensitive data replacement for Azure Portal screenshots using Chrome DevTools MCP Server.
 
 ## Multi-Project Support
@@ -22,6 +24,16 @@ This repository supports **multiple screenshot projects** using a **single share
 
 See [Multi-Project Guide](docs/MULTI-PROJECT-GUIDE.md) for complete documentation.
 
+## 📚 Documentation
+
+### Specifications
+
+- **[Product Specification](docs/specs/spec.md)** - User scenarios, functional requirements, success criteria, integration points
+- **[Technical Plan](docs/specs/plan.md)** - Architecture, implementation phases, performance benchmarks
+
+### Project Documentation
+
+- [Full Documentation Index](docs/) - Comprehensive guides and references
 ## Quick Start
 
 1. **Start debuggable Edge/Chrome**:
