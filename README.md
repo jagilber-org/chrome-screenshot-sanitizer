@@ -4,6 +4,22 @@
 
 Automated PII/sensitive data replacement for Azure Portal screenshots using Chrome DevTools MCP Server.
 
+## 🔐 Security Notice
+
+This repository follows [GitHub Spec-Kit](https://github.com/ambie-inc) security standards:
+
+- **Pre-commit hooks**: Prevents accidental commit of credentials, subscription IDs, and real screenshots
+- **Environment variables**: Use `.env.example` as template, never commit actual `.env`
+- **Config files**: `replacements-*.template.json` are templates; actual config files are gitignored
+- **Screenshots**: All `output/` and `images/` directories are gitignored (may contain PII)
+- **Replacement patterns**: Use placeholder values in documentation (see below)
+- **Project outputs**: Each project's `outputs/` directory is gitignored
+- **Test data**: Use synthetic Azure Portal examples (not production data)
+
+**For contributors**: Review security guidelines in the Contributing section before making changes.
+
+---
+
 ## Multi-Project Support
 
 This repository supports **multiple screenshot projects** using a **single shared .env file** for PII patterns:
@@ -24,17 +40,102 @@ This repository supports **multiple screenshot projects** using a **single share
 
 See [Multi-Project Guide](docs/MULTI-PROJECT-GUIDE.md) for complete documentation.
 
-## 📚 Documentation
+## Portfolio Context
 
-### Specifications
+This project is part of the [jagilber-org portfolio](https://github.com/jagilber-org), demonstrating practical MCP (Model Context Protocol) integration patterns.
 
-- **[Product Specification](docs/specs/spec.md)** - User scenarios, functional requirements, success criteria, integration points
-- **[Technical Plan](docs/specs/plan.md)** - Architecture, implementation phases, performance benchmarks
+**Cross-Project Integration**:
+- Works with **obfuscate-mcp-server** for comprehensive PII removal workflows
+- Integrates with **chrome-devtools MCP** for browser automation
+- Complements **kusto-dashboard-manager** for Azure Portal screenshot documentation
+- Part of enterprise-grade data sanitization workflow
 
-### Project Documentation
+**Portfolio Highlights**:
+- Real-world MCP server integration (Chrome DevTools Protocol)
+- Production-ready PII sanitization patterns
+- Multi-project configuration system (.env based)
+- Automated documentation screenshot workflows
 
-- [Full Documentation Index](docs/) - Comprehensive guides and references
+[View Full Portfolio](https://github.com/jagilber-org) | [Integration Examples](https://github.com/jagilber-org#cross-project-integration)
+
 ## Quick Start
+
+### First-Time Setup
+
+**Prerequisites:**
+- PowerShell 5.1+ (Windows) or PowerShell Core 7+ (cross-platform)
+- Microsoft Edge or Google Chrome browser
+- VS Code with GitHub Copilot (for MCP integration)
+- Chrome DevTools MCP Server configured (see [.vscode/README.md](.vscode/README.md))
+
+**Initial Setup:**
+
+**Option 1: Use .env System (Recommended)**
+
+```powershell
+# 1. Clone the repository
+git clone https://github.com/jagilber-org/chrome-screenshot-sanitizer.git
+cd chrome-screenshot-sanitizer
+
+# 2. Create .env from example
+Copy-Item .env.example .env
+
+# 3. Edit .env with your actual values (never commit this file)
+code .env
+
+# 4. Validate configuration
+.\Get-SanitizationMappings.ps1 -ValidateOnly
+
+# 5. Generate sanitization script
+.\Sanitize-AzurePortal-FromEnv.ps1
+```
+
+**Option 2: Use JSON System (Legacy)**
+
+```powershell
+# 1. Clone the repository
+git clone https://github.com/jagilber-org/chrome-screenshot-sanitizer.git
+cd chrome-screenshot-sanitizer
+
+# 2. Copy the template configuration
+Copy-Item replacements-azure-portal.template.json replacements-azure-portal.json
+
+# 3. Edit with your patterns (never commit this file)
+code replacements-azure-portal.json
+
+# 4. Generate sanitization script
+.\Sanitize-AzurePortal.ps1
+```
+
+**Verify Installation:**
+
+```powershell
+# Test .env validation (Option 1)
+.\Get-SanitizationMappings.ps1 -ValidateOnly
+
+# Test script generation (either option)
+.\Sanitize-AzurePortal-FromEnv.ps1  # or .\Sanitize-AzurePortal.ps1
+```
+
+See [ENV-BASED-SANITIZATION.md](ENV-BASED-SANITIZATION.md) for complete .env system documentation.
+
+### Set up Chrome MCP Server
+
+See [.vscode/README.md](.vscode/README.md) for Chrome MCP configuration.
+
+### Verified Working Workflow
+
+The complete workflow has been tested and verified on December 10, 2025:
+
+1. ✅ Start Edge with remote debugging
+2. ✅ Navigate to Azure Portal via Chrome MCP
+3. ✅ Execute sanitization JavaScript (21 replacements verified)
+4. ✅ Capture screenshot with all PII removed
+5. ✅ Example screenshot available: [images/examples/azure-portal-home-sanitized.png](images/examples/azure-portal-home-sanitized.png)
+
+See [docs/sessions/2025-12-10-successful-chrome-mcp-test.md](docs/sessions/2025-12-10-successful-chrome-mcp-test.md) for complete test details and learnings.
+
+### Basic Usage
 
 1. **Start debuggable Edge/Chrome**:
    ```powershell
@@ -232,57 +333,6 @@ $replacements | ConvertTo-Json | Out-File my-replacements.json
 # Edit Sanitize-AzurePortal.ps1 to use your file
 ```
 
-## Getting Started
-
-### First-Time Setup
-
-**Option 1: Use .env System (Recommended)**
-
-```powershell
-# 1. Create .env from example
-Copy-Item .env.example .env
-
-# 2. Edit with your actual values
-code .env
-
-# 3. Validate configuration
-.\Get-SanitizationMappings.ps1 -ValidateOnly
-
-# 4. Generate sanitization script
-.\Sanitize-AzurePortal-FromEnv.ps1
-```
-
-**Option 2: Use JSON System (Legacy)**
-
-```powershell
-# 1. Copy the template configuration
-Copy-Item replacements-azure-portal.template.json replacements-azure-portal.json
-
-# 2. Edit with your patterns
-code replacements-azure-portal.json
-
-# 3. Generate sanitization script
-.\Sanitize-AzurePortal.ps1
-```
-
-See [ENV-BASED-SANITIZATION.md](ENV-BASED-SANITIZATION.md) for complete .env system documentation.
-
-### Set up Chrome MCP Server
-
-See [.vscode/README.md](.vscode/README.md) for Chrome MCP configuration.
-
-### Verified Working Workflow
-
-The complete workflow has been tested and verified on December 10, 2025:
-
-1. ✅ Start Edge with remote debugging
-2. ✅ Navigate to Azure Portal via Chrome MCP
-3. ✅ Execute sanitization JavaScript (21 replacements verified)
-4. ✅ Capture screenshot with all PII removed
-5. ✅ Example screenshot available: [images/examples/azure-portal-home-sanitized.png](images/examples/azure-portal-home-sanitized.png)
-
-See [docs/sessions/2025-12-10-successful-chrome-mcp-test.md](docs/sessions/2025-12-10-successful-chrome-mcp-test.md) for complete test details and learnings.
-
 ## Tips
 
 1. **Test patterns first**: Use regex101.com to validate before adding to JSON
@@ -290,24 +340,6 @@ See [docs/sessions/2025-12-10-successful-chrome-mcp-test.md](docs/sessions/2025-
 3. **Escape special chars**: `.` → `\\.`, `\\` → `\\\\`, `[` → `\\[`
 4. **Case insensitive**: All patterns use `/gi` flag (global, case-insensitive)
 5. **Preview before saving**: Review the sanitized page in browser before taking screenshot
-
-## Portfolio Context
-
-This project is part of the [jagilber-org portfolio](https://github.com/jagilber-org), demonstrating practical MCP (Model Context Protocol) integration patterns.
-
-**Cross-Project Integration**:
-- Works with **obfuscate-mcp-server** for comprehensive PII removal workflows
-- Integrates with **chrome-devtools MCP** for browser automation
-- Complements **kusto-dashboard-manager** for Azure Portal screenshot documentation
-- Part of enterprise-grade data sanitization workflow
-
-**Portfolio Highlights**:
-- Real-world MCP server integration (Chrome DevTools Protocol)
-- Production-ready PII sanitization patterns
-- Multi-project configuration system (.env based)
-- Automated documentation screenshot workflows
-
-[View Full Portfolio](https://github.com/jagilber-org) | [Integration Examples](https://github.com/jagilber-org#cross-project-integration)
 
 ## Integration with Documentation Workflows
 
@@ -319,3 +351,100 @@ This tool pairs perfectly with:
 - **Training materials**
 
 Simply sanitize → screenshot → embed in your docs! 📸
+
+## 🤝 Contributing
+
+### Code Standards
+
+This project follows PowerShell scripting best practices:
+
+- **PowerShell Best Practices**: Use approved verbs, proper error handling, comment-based help
+- **Testing**: All features require testing before merge
+- **Chrome DevTools Protocol**: Follow CDP standards for browser automation
+- **Code Review**: All changes undergo peer review
+- **Security First**: All screenshots and config files are gitignored
+
+**Testing Requirements:**
+- Test sanitization patterns with real Azure Portal pages
+- Verify Chrome MCP integration functionality
+- Test multi-project support workflows
+- Ensure .env validation works correctly
+
+**Development Process:**
+```powershell
+git clone https://github.com/jagilber-org/chrome-screenshot-sanitizer.git
+cd chrome-screenshot-sanitizer
+# Make changes
+# Test with real browser and Azure Portal
+# Verify sanitization works
+# Commit changes
+```
+
+### Repository Ownership Policy
+
+This repository follows strict contribution guidelines per [GitHub Spec-Kit](https://github.com/ambie-inc) standards:
+
+- **No automatic PRs**: Contributors must have explicit permission before creating pull requests
+- **Manual review required**: All contributions undergo code review and security checks
+- **Testing mandatory**: All changes must be tested with actual Azure Portal pages
+- **Documentation required**: Update relevant documentation with changes
+
+**Before contributing:**
+1. Open an issue to discuss proposed changes
+2. Wait for maintainer approval
+3. Follow code standards and testing requirements
+4. Ensure all security checks pass
+
+### Documentation Standards
+
+**IMPORTANT**: Follow these documentation practices:
+
+- ✅ **Use placeholder values** in all examples:
+  - Email addresses: `user@example.com`, `admin@contoso.com`
+  - Names: John Doe, Jane Smith, Demo User
+  - Subscription IDs: `xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx` (all x's)
+  - Resource names: `demo-cluster`, `contoso-rg`, `example-storage`
+  - URLs: `https://example.com`, `https://portal.azure.com` (generic)
+  - Hostnames: `democluster.region.cloudapp.azure.com`
+  - Tenant names: ContosoDemo, FabrikamTest
+
+- ❌ **Never include**:
+  - Real credentials, API keys, or auth tokens
+  - Actual Azure subscription IDs or tenant IDs
+  - Production resource names or hostnames
+  - Real email addresses or usernames
+  - Company-specific data or internal identifiers
+  - Screenshots containing real PII data
+
+- ✅ **Do document**:
+  - Sanitization pattern examples with placeholders
+  - Chrome DevTools Protocol commands and usage
+  - Multi-project configuration workflows
+  - Regex pattern best practices
+  - .env file structure (with example values)
+
+**Security in Documentation:**
+- Never commit actual `.env` files (only `.env.example`)
+- Never commit screenshots from `output/` or `images/` directories
+- Use generic Azure Portal examples (not production data)
+- Redact any logs or traces containing real resource names
+- Always use placeholder GUIDs, emails, and identifiers
+
+## 📄 License
+
+See `LICENSE`.
+
+## 📚 Documentation
+
+### Specifications
+
+- **[Product Specification](docs/specs/spec.md)** - User scenarios, functional requirements, success criteria, integration points
+- **[Technical Plan](docs/specs/plan.md)** - Architecture, implementation phases, performance benchmarks
+
+### Project Documentation
+
+- [Full Documentation Index](docs/) - Comprehensive guides and references
+
+---
+
+**Made with ❤️ for documentation writers who value privacy** 📸🔒
