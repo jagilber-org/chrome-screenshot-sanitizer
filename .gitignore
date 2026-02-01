@@ -1,42 +1,31 @@
 # ===================================================================
 # RUNTIME ARTIFACTS - NEVER COMMIT
 # ===================================================================
-# These directories contain runtime-generated data, test artifacts,
-# and temporary files that MUST NEVER be committed to the repository.
+# These directories contain runtime-generated data from sanitization
+# operations and MUST NEVER be committed to the repository.
 
-# Temporary directories and scratch space (ALL test artifacts)
+# Project outputs (sanitized screenshots - may still contain sensitive data)
+projects/*/outputs/*.png
+projects/*/outputs/*.jpg
+projects/*/outputs/*.jpeg
+projects/*/outputs/*.gif
+projects/*/outputs/*.webp
+# Preserve directory structure with .gitkeep
+!projects/*/outputs/.gitkeep
+
+# Temporary PowerShell artifacts
 tmp/
-tmp/**
-tmp/**/*.tmp
+*.tmp
+*.temp
+temp/
 
-# Runtime data and state directories
-data/
-data/**
-!data/.keep
-memory/
-memory/**
-!memory/.keep
-metrics/
-metrics/**
-!metrics/.keep
-
-# Log files and runtime logs
+# PowerShell transcripts and logs (may contain sensitive runtime data)
+PowerShell_transcript.*.txt
 logs/
-logs/**
-!logs/.keep
-!logs/trace/.keep
-logs/trace/*.jsonl
+*.log
 
-# Test run sentinel / status markers (ALL test markers)
-.test-run-complete.*.marker
-.test-run-complete.*
-.test-run-status.json
-.test-run-complete.latest
-.baseline.sentinel
-
-# Coverage reports
-coverage/
-.nyc_output/
+# Generated sanitization scripts
+*-sanitize.js
 
 # Backup directories
 backups/
@@ -65,7 +54,6 @@ images/*.webp
 # Sensitive configuration files (CRITICAL: Never commit real replacement configs)
 replacements-*.json
 !replacements-azure-portal.template.json
-# Note: replacements-azure-portal.json is intentionally gitignored despite earlier config
 
 # Browser debug profiles and sessions
 *Debug/
@@ -73,25 +61,19 @@ EdgeDebug/
 ChromeDebug/
 .debuggerinfo
 
-# Temporary files and sanitization outputs
-*.tmp
-*.temp
-temp/
-$env:TEMP/
-*-sanitize.js
-
-# PowerShell
+# PowerShell editor temporary files
 *.ps1.swp
 *.psm1.swp
 
-# Git
-.git/
+# ===================================================================
+# DEVELOPMENT ARTIFACTS
+# ===================================================================
 
 # VS Code
 .vscode/
 *.code-workspace
 
-# Node modules (if using npm for Chrome MCP)
+# Node modules (Chrome MCP integration)
 node_modules/
 package-lock.json
 
@@ -99,5 +81,6 @@ package-lock.json
 Thumbs.db
 .DS_Store
 
-# Exclude azure-resource-explorer (not part of portfolio)
+# Exclude specific projects (not part of portfolio)
 projects/azure-resource-explorer/
+
