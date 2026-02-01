@@ -1,3 +1,51 @@
+# ===================================================================
+# RUNTIME ARTIFACTS - NEVER COMMIT
+# ===================================================================
+# These directories contain runtime-generated data, test artifacts,
+# and temporary files that MUST NEVER be committed to the repository.
+
+# Temporary directories and scratch space (ALL test artifacts)
+tmp/
+tmp/**
+tmp/**/*.tmp
+
+# Runtime data and state directories
+data/
+data/**
+!data/.keep
+memory/
+memory/**
+!memory/.keep
+metrics/
+metrics/**
+!metrics/.keep
+
+# Log files and runtime logs
+logs/
+logs/**
+!logs/.keep
+!logs/trace/.keep
+logs/trace/*.jsonl
+
+# Test run sentinel / status markers (ALL test markers)
+.test-run-complete.*.marker
+.test-run-complete.*
+.test-run-status.json
+.test-run-complete.latest
+.baseline.sentinel
+
+# Coverage reports
+coverage/
+.nyc_output/
+
+# Backup directories
+backups/
+*_backup_*/
+
+# ===================================================================
+# SENSITIVE DATA - NEVER COMMIT
+# ===================================================================
+
 # Screenshots with sensitive data (CRITICAL: Never commit unsanitized screenshots)
 images/*.png
 images/*.jpg
